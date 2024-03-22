@@ -1,10 +1,13 @@
 <template>
     <div class="container">
         <div class="graph">
+            <canvas :id="props.table_data.fileName + 'mrr'" width="400" height="400"></canvas>
+        </div>
+        <div class="graph">
             <canvas :id="props.table_data.fileName + 'churn'" width="400" height="400"></canvas>
         </div>
         <div class="graph">
-            <canvas :id="props.table_data.fileName" width="400" height="400"></canvas>
+            <canvas :id="props.table_data.fileName + 'users'" width="400" height="400"></canvas>
         </div>
     </div>
 </template>
@@ -35,10 +38,20 @@ onMounted(() => {
         datasets: datasets
     }
     const config = {
-        type: 'bar',
+        type: 'line',
         data: data,
         options: {
-            aspectRatio: 4 / 3,
+            aspectRatio: 16 / 9,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'MRR ($/tempo)'
+                }
+            }
         }
     }
     const churnData = {
@@ -49,19 +62,59 @@ onMounted(() => {
         type: 'line',
         data: churnData,
         options: {
-            aspectRatio: 4 / 3,
+            aspectRatio: 16 / 9,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Churn Rate (%)'
+                }
+            }
+        }
+    }
+    const userData = {
+        labels: labels,
+        datasets: [createDataset(table_data.monthly.users_active, 'Usuários ativos'),
+        createDataset(table_data.monthly.cancels, 'Cancelamentos'),
+        createDataset(table_data.monthly.user_growth, 'usuários totais'),
+        createDataset(table_data.monthly.new_clients, 'Novos Usuários')
+        ]
+    }
+    const usersConfig = {
+        type: 'line',
+        data: userData,
+        options: {
+            aspectRatio: 16 / 9,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Número de usuários/tempo'
+                }
+            }
         }
     }
     console.log(config)
     // eslint-disable-next-line no-unused-vars
     const mrrChart = new Chart(
-        document.getElementById(props.table_data.fileName + 'churn'),
+        document.getElementById(props.table_data.fileName + 'mrr'),
         config
     )
     // eslint-disable-next-line no-unused-vars
     const churnChart = new Chart(
-        document.getElementById(props.table_data.fileName),
+        document.getElementById(props.table_data.fileName + 'churn'),
         churnConfig
+    )
+    // eslint-disable-next-line no-unused-vars
+    const active_cancel = new Chart(
+        document.getElementById(props.table_data.fileName + 'users'),
+        usersConfig
     )
 })
 
@@ -78,6 +131,7 @@ onMounted(() => {
 }
 
 .graph {
-    width: 100%;
+    width: 90%;
+    margin-bottom: 1rem;
 }
 </style>

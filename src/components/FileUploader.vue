@@ -19,7 +19,7 @@ const store = useTableStore()
 const handleChange = info => {
     const status = info.file.status;
     if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
+        console.log(status);
     }
     if (status === 'done') {
         message.success(`${info.file.name} file uploaded successfully.`);

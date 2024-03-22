@@ -6,8 +6,7 @@ export const createDataset = (d, label) => {
         data.push(amount)
     })
     const chartData = {
-        label: getLabel(label), data, backgroundColor: getBackgroundColor(label), barThickness: 6,
-        maxBarThickness: 8,
+        label: getLabel(label), data, backgroundColor: getBackgroundColor(label)
     }
 
     return chartData
