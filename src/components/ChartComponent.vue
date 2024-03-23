@@ -1,5 +1,12 @@
 <template>
     <div class="container">
+        <div class="header">
+            <p>{{ props.table_data.fileName.split('.')[0] }}</p>
+            <select name="select" @change="selectYear($event.target.value)">
+                <option value="">todo o periodo</option>
+                <option v-for="(year, index) in props.table_data.years" :key="index" :value="year">20{{ year }}</option>
+            </select>
+        </div>
         <div class="graph">
             <canvas :id="props.table_data.fileName + 'mrr'" width="400" height="400"></canvas>
         </div>
@@ -14,7 +21,7 @@
 
 <script setup>
 import Chart from 'chart.js/auto'
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { createDataset } from './utils/datasets';
 
 const props = defineProps({
@@ -23,18 +30,37 @@ const props = defineProps({
         required: true
     }
 });
+const imutableLabels = ref([])
+const labels = ref([])
+let mrrChart
+let churnChart
+let active_cancel
+const selectYear = (year) => {
+    if (year === '') {
+        labels.value = imutableLabels.value
+    } else {
+        const lbl = imutableLabels.value
+        labels.value = lbl.filter(v => v.split('-')[0] == year)
+    }
+    mrrChart.destroy();
+    churnChart.destroy();
+    active_cancel.destroy();
 
-onMounted(() => {
+    mountCharts();
+
+}
+const mountCharts = () => {
     const datasets = []
     const table_data = props.table_data;
-    const labels = Object.keys(table_data.monthly.mrr)
     const interestKeys = ['mrr', 'churn_amount', 'new_clients_amount']
+
     interestKeys.map(i => {
-        let dataset = createDataset(table_data.monthly[i], i)
+        let dataset = createDataset(table_data.monthly[i], i, labels.value)
         datasets.push(dataset)
     })
+
     const data = {
-        labels: labels,
+        labels: labels.value,
         datasets: datasets
     }
     const config = {
@@ -55,8 +81,8 @@ onMounted(() => {
         }
     }
     const churnData = {
-        labels: labels,
-        datasets: [createDataset(table_data.monthly.churn_rate, 'Churn Rate')]
+        labels: labels.value,
+        datasets: [createDataset(table_data.monthly.churn_rate, 'Churn Rate', labels.value)]
     }
     const churnConfig = {
         type: 'line',
@@ -76,11 +102,11 @@ onMounted(() => {
         }
     }
     const userData = {
-        labels: labels,
-        datasets: [createDataset(table_data.monthly.users_active, 'Usuários ativos'),
-        createDataset(table_data.monthly.cancels, 'Cancelamentos'),
-        createDataset(table_data.monthly.user_growth, 'usuários totais'),
-        createDataset(table_data.monthly.new_clients, 'Novos Usuários')
+        labels: labels.value,
+        datasets: [createDataset(table_data.monthly.users_active, 'Usuários ativos', labels.value),
+        createDataset(table_data.monthly.cancels, 'Cancelamentos', labels.value),
+        createDataset(table_data.monthly.user_growth, 'usuários totais', labels.value),
+        createDataset(table_data.monthly.new_clients, 'Novos Usuários', labels.value)
         ]
     }
     const usersConfig = {
@@ -100,22 +126,26 @@ onMounted(() => {
             }
         }
     }
-    console.log(config)
     // eslint-disable-next-line no-unused-vars
-    const mrrChart = new Chart(
+    mrrChart = new Chart(
         document.getElementById(props.table_data.fileName + 'mrr'),
         config
     )
     // eslint-disable-next-line no-unused-vars
-    const churnChart = new Chart(
+    churnChart = new Chart(
         document.getElementById(props.table_data.fileName + 'churn'),
         churnConfig
     )
     // eslint-disable-next-line no-unused-vars
-    const active_cancel = new Chart(
+    active_cancel = new Chart(
         document.getElementById(props.table_data.fileName + 'users'),
         usersConfig
     )
+}
+onMounted(() => {
+    labels.value = [...props.table_data.months]
+    imutableLabels.value = [...props.table_data.months]
+    mountCharts()
 })
 
 </script>
@@ -133,5 +163,16 @@ onMounted(() => {
 .graph {
     width: 90%;
     margin-bottom: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem
+}
+
+p {
+    margin: 0
 }
 </style>

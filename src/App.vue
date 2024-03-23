@@ -36,7 +36,6 @@ export default {
       </div>
     </Box>
     <Box v-for="(table, index) in tables" :key="index">
-      <p>{{ table.fileName }}</p>
       <Chart :table_data="table">
       </Chart>
     </Box>

@@ -1,5 +1,5 @@
-export const createDataset = (d, label) => {
-    const keys = Object.keys(d); // Obtenha as chaves do objeto
+export const createDataset = (d, label, labels) => {
+    const keys = labels
     let data = []
     keys.map(i => {
         const amount = label === 'churn_amount' ? -d[i] : d[i]
