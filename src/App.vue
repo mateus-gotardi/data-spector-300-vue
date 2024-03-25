@@ -24,7 +24,7 @@ export default {
 
 <template>
   <header>
-    <img src='./assets/logo.png' />
+    <img class="logo-img" src='./assets/logo.png' />
     <span class="logo-text">DATA SPECTOR</span>
   </header>
 
@@ -71,5 +71,9 @@ main {
 
 .logo-text {
   font-size: 10px;
+}
+
+.logo-img {
+  height: 1rem
 }
 </style>
