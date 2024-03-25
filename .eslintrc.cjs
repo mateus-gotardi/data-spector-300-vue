@@ -8,6 +8,9 @@ module.exports = {
     'eslint:recommended',
     '@vue/eslint-config-prettier/skip-formatting'
   ],
+  plugins: [
+    'import' // Adiciona o plugin de import
+  ],
   overrides: [
     {
       files: [
@@ -20,6 +23,7 @@ module.exports = {
     }
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   }
 }

@@ -25,7 +25,7 @@ export default {
 <template>
   <header>
     <img class="logo-img" src='./assets/logo.png' />
-    <span class="logo-text">DATA SPECTOR</span>
+    <span class="logo-text">DATA SPECTOR 300</span>
   </header>
 
   <main>

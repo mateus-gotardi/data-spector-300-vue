@@ -1,5 +1,5 @@
 <template>
-    <a-upload-dragger v-model:fileList="fileList" name="file" :multiple="true" action="http://localhost:5000/upload"
+    <a-upload-dragger v-model:fileList="fileList" name="file" :multiple="true" :action="uploadUrl"
         @change="handleChange" @drop="handleDrop">
         <p class="ant-upload-drag-icon">
 
@@ -16,6 +16,7 @@ import { message } from 'ant-design-vue';
 import { useTableStore } from '@/stores/tables'
 const fileList = ref([]);
 const store = useTableStore()
+const uploadUrl = import.meta.env.VITE_UPLOAD_URL
 const handleChange = info => {
     const status = info.file.status;
     if (status !== 'uploading') {
