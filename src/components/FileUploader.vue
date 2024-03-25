@@ -23,10 +23,10 @@ const handleChange = info => {
         console.log('file upload ' + status);
     }
     if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`);
+        message.success(`${info.file.name} enviado com sucesso`);
         store.addTable({ ...info.file.response, fileName: `${info.file.name}-${Date.now()}` })
     } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`falha ao enviar o arquivo.`);
     }
 };
 function handleDrop(e) {
