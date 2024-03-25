@@ -1,57 +1,29 @@
-# Data Spector 300
+# Data Spector 300 Front-End
 
-This template should help get you started developing with Vue 3 in Vite.
+ Este app Vue foi escrito para possibilitar o envio de uma ou mais planilhas para cálculo do MRR, Churn rate e mais algumas informações. Os dados são processados em um [BACK END PYTHON](https://github.com/mateus-gotardi/data-spector-300-python) e exibidos em forma de gráficos através do [Chart JS](https://www.chartjs.org)
 
-## Recommended IDE Setup
+## Deploy
+Acesse o deploy do projeto pelo link: https://data-spector-300-vue.vercel.app
+ou então clone o repositório e rode o projeto na sua máquina
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Setup do Projeto na sua máquina
+clone ou baixe o repositório e instale as dependências utilizando
+  
 
 ```sh
-npm install
+npm  install
 ```
-
-### Compile and Hot-Reload for Development
+### Defina as variáveis de ambiente
+crie um arquivo .env ou .env.local e insira a URL do back end de acordo com o exemplo em .env.example
 
 ```sh
-npm run dev
+VITE_UPLOAD_URL  =  http://localhost:5000/upload
 ```
-
-### Compile and Minify for Production
-
+### Tenha certeza de que o back end está sendo executado na sua máquina
+acesse o  [BACK END PYTHON](https://github.com/mateus-gotardi/data-spector-300-python)  e o execute conforme instruções do leia-me
+### Rode o aplicativo Vue
+utilize o seguinte comando no console na pasta do app
 ```sh
-npm run build
+npm  run  dev
 ```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Acesse http://localhost:5173 no seu navegador para acessar o app
